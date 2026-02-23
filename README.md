@@ -19,3 +19,10 @@ My solutions to Harvard's introduction to AI programming. If you want to check t
     pyenv local 3.12.
     python --version # should show some version of Python 3.12
     ``` 
+5. Install dependencies within virtual environment.
+
+    ```
+    python -m venv .venv
+    source .venv/bin/activate 
+    pip install -r requirements.txt
+    ```
