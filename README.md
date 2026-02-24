@@ -1,6 +1,6 @@
 # CS50 Intro to AI with Python
 
-My solutions to Harvard's introduction to AI programming. If you want to check the solutions or build on them, see the installation guide below.
+My solutions to Harvard's introduction to AI programming challenges. I've approached them using test driven design. If you want to check my solutions or build on them, see the installation guide below.
 
 ## Installation 
 
