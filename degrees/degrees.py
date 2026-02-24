@@ -84,7 +84,7 @@ def main():
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
 
 
-def shortest_path(source, target):
+def shortest_path(source: str, target: str) -> list[tuple[str, str]]:
     """
     Returns the shortest list of (movie_id, person_id) pairs
     that connect the source to the target.
@@ -92,7 +92,7 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    return 
+    return [(source, target)]
 
 def person_id_for_name(name):
     """
