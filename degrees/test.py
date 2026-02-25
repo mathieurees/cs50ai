@@ -1,8 +1,10 @@
-import pytest
-from degrees import shortest_path
+import os
+from degrees import shortest_path, load_data
+
+load_data(os.getcwd() + "/small")   # navigate to degrees subdirectory first
 
 def test_returns_correct_type():
-    possible_list = shortest_path('x', 'y')
+    possible_list = shortest_path("102", "102")
     is_correct = isinstance(possible_list, list) 
     if is_correct:
         for possible_tuple in possible_list:
@@ -17,3 +19,25 @@ def test_returns_correct_type():
                     is_correct = False
                     break
     assert is_correct or possible_list is None
+
+class TestReturnsNoneWhenNoInputHasNoFilms():
+ 
+    def test_returns_none_when_source_has_no_films(self):
+        output = shortest_path("914612", "102")
+        assert output is None
+
+    def test_returns_none_when_target_has_no_films(self):
+        output = shortest_path("102", "914612")
+        assert output is None
+    
+    def test_returns_none_when_neither_has_films(self):
+        output = shortest_path("102", "102")
+        assert output is None
+
+class TestReturnsShortestLengthOnePath():
+
+    def test_correct_when_inputs_different(self):
+        ...
+
+    def test_correct_when_inputs_same(self):
+        ...

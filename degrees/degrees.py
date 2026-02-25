@@ -1,7 +1,7 @@
 import csv
 import sys
 
-from util import Node, StackFrontier, QueueFrontier
+from util import Node, QueueFrontier
 
 # Maps names to a set of corresponding person_ids
 names = {}
@@ -91,8 +91,19 @@ def shortest_path(source: str, target: str) -> list[tuple[str, str]]:
 
     If no possible path, returns None.
     """
+    film_frontier = QueueFrontier()
+    source_node = Node(source, None, None)
+    film_frontier.add(source_node)
 
-    return [(source, target)]
+    while True:
+        if film_frontier.empty():
+            break
+        current_node = film_frontier.remove()
+        children = neighbors_for_person(current_node.state)
+        if not children:
+            break
+    print(children)
+    return None
 
 def person_id_for_name(name):
     """
