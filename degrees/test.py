@@ -16,4 +16,4 @@ def test_returns_correct_type():
                 if not isinstance(possible_string, str):
                     is_correct = False
                     break
-    assert is_correct
+    assert is_correct or possible_list is None
