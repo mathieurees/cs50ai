@@ -1,4 +1,4 @@
-import os
+import pytest, os
 from degrees import shortest_path, load_data
 
 load_data(os.getcwd() + "/small")   # navigate to degrees subdirectory first
@@ -37,7 +37,9 @@ class TestReturnsNoneWhenNoInputHasNoFilms():
 class TestReturnsShortestLengthOnePath():
 
     def test_correct_when_inputs_different(self):
-        ...
+        output = shortest_path("1597", "144")
+        assert output == [("93779","144")] # source 1597 starred in movie 93779 with person 144
 
-    def test_correct_when_inputs_same(self):
-        ...
+    def test_order_irrelevant(self):
+        output = shortest_path("144", "1597")
+        assert output == [("93779","1597")]
