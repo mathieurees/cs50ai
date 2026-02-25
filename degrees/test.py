@@ -31,7 +31,7 @@ class TestReturnsNoneWhenNoInputHasNoFilms():
         assert output is None
     
     def test_returns_none_when_neither_has_films(self):
-        output = shortest_path("102", "102")
+        output = shortest_path("914612", "914612")
         assert output is None
 
 class TestReturnsShortestLengthOnePath():
@@ -53,3 +53,11 @@ class TestReturnsShortestLengthTwoPath():
     def test_order_irrelevant(self):
         output = shortest_path("163", "102")
         assert output == [("95953", "129"), ("104257", "102")]
+
+
+class TestReturnsZeroPath():
+
+    def test_returns_empty_list(self):
+        output = shortest_path("102", "102")
+        assert output == [] 
+

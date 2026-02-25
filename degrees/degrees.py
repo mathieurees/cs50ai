@@ -91,8 +91,6 @@ def shortest_path(source: str, target: str) -> list[tuple[str, str]]:
 
     If no possible path, returns None.
     """
-    if source == target:
-        return None
 
     film_frontier = QueueFrontier()
     source_node = Node(source, None, None)
@@ -114,9 +112,8 @@ def shortest_path(source: str, target: str) -> list[tuple[str, str]]:
         for neighbour in neighbours:
             child_node = Node(neighbour[1], current_node, neighbour[0])
             if child_node.state not in explored:
-                if child_node.state not in film_frontier.frontier:
-                    film_frontier.add(child_node)
-                
+                film_frontier.add(child_node)
+        
     return None
 
 def person_id_for_name(name):
