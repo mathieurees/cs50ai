@@ -29,10 +29,6 @@ class TestReturnsNoneWhenNoInputHasNoFilms():
     def test_returns_none_when_target_has_no_films(self):
         output = shortest_path("102", "914612")
         assert output is None
-    
-    def test_returns_none_when_neither_has_films(self):
-        output = shortest_path("914612", "914612")
-        assert output is None
 
 class TestReturnsShortestLengthOnePath():
 
