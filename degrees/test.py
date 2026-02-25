@@ -38,18 +38,18 @@ class TestReturnsShortestLengthOnePath():
 
     def test_correct_when_inputs_different(self):
         output = shortest_path("1597", "144")
-        assert output == [("93779","144")] # source 1597 starred in movie 93779 with person 144
+        assert output == [("93779", "144")] # source 1597 starred in movie 93779 with person 144
 
     def test_order_irrelevant(self):
         output = shortest_path("144", "1597")
-        assert output == [("93779","1597")]
+        assert output == [("93779", "1597")]
 
-class TestReturnsShortestLengthOnePath():
+class TestReturnsShortestLengthTwoPath():
 
     def test_correct_when_inputs_different(self):
-        output = shortest_path("1597", "144")
-        assert output == [("93779","144")] # source 1597 starred in movie 93779 with person 144
+        output = shortest_path("102", "163")
+        assert output == [("104257", "129"), ("95953", "163")] 
 
     def test_order_irrelevant(self):
-        output = shortest_path("144", "1597")
-        assert output == [("93779","1597")]
+        output = shortest_path("163", "102")
+        assert output == [("95953", "129"), ("104257", "102")]

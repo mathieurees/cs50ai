@@ -104,13 +104,18 @@ def shortest_path(source: str, target: str) -> list[tuple[str, str]]:
             break
         current_node = film_frontier.remove()
         if current_node.state == target:
-            return [(current_node.action, current_node.state)]
+            path = []
+            while current_node.action is not None:
+                path = [(current_node.action, current_node.state)] + path
+                current_node = current_node.parent
+            return path
         explored.append(current_node.state)
         neighbours = neighbors_for_person(current_node.state)
         for neighbour in neighbours:
-            child_node = Node(neighbour[1], current_node.state, neighbour[0])
-            if child_node.state not in explored and child_node.state not in film_frontier.frontier:
-                film_frontier.add(child_node)
+            child_node = Node(neighbour[1], current_node, neighbour[0])
+            if child_node.state not in explored:
+                if child_node.state not in film_frontier.frontier:
+                    film_frontier.add(child_node)
                 
     return None
 
