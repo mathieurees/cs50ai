@@ -67,8 +67,22 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
-
+    rows = [[],[],[]]
+    columns = [[],[],[]]
+    diagonals = [[],[]]
+    for i in range(3):
+        for j in range(3):
+            if i == j:
+                diagonals[0] = diagonals[0] + [board[i][j]]
+                diagonals[1] = diagonals[1] + [board[i][2-j]]
+            rows[i] = rows[i] + [board[i][j]]
+            columns[j] = columns[j] + [board[i][j]]
+    print(diagonals)
+    for line in rows + columns + diagonals:
+        if len(set(line)) == 1:
+            if line[0]:
+                return line[0]
+    return None
 
 def terminal(board):
     """

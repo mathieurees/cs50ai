@@ -1,4 +1,4 @@
-from tictactoe import initial_state, EMPTY, X, O, player, actions, result 
+from tictactoe import initial_state, EMPTY, X, O, player, actions, result, winner
 import pytest
 
 class TestPlayer():
@@ -83,4 +83,63 @@ class TestResult():
     def test_result_raises_exception_for_incorrect_action(self):
         with pytest.raises(Exception):
             result(self.o_move_board, self.invalid_action)
-    
+
+class TestWinner():
+
+    def test_horizontal_winner(self):
+        x_wins = [
+            [X, X, X],
+            [O, O, X],
+            [X, O, O]
+        ]
+        o_wins = [
+            [O, O, O],
+            [X, X, X],
+            [O, X, EMPTY]
+        ]
+        assert X == winner(x_wins)
+        assert O == winner(o_wins)
+
+    def test_vertical_winner(self):
+        x_wins = [
+            [X, X, O],
+            [X, O, X],
+            [X, O, O]
+        ]
+        o_wins = [
+            [X, O, O],
+            [X, X, O],
+            [EMPTY, X, O]
+        ]
+        assert X == winner(x_wins)
+        assert O == winner(o_wins)
+
+    def test_diagonal_winner(self):
+        x_wins = [
+            [X, X, O],
+            [O, X, EMPTY],
+            [X, O, X]
+        ]
+        o_wins = [
+            [X, X, O],
+            [X, O, X],
+            [O, EMPTY, O]
+        ]
+        assert X == winner(x_wins)
+        assert O == winner(o_wins)
+
+    def test_returns_none_when_game_in_progress(self):
+        in_progress = [
+            [X, EMPTY, O],
+            [EMPTY, EMPTY, X],
+            [EMPTY, EMPTY, EMPTY]
+        ]
+        assert winner(in_progress) is None
+
+    def test_returns_none_when_game_a_draw(self):
+        draw = [
+            [X, O, X],
+            [X, O, X],
+            [O, X, O]
+        ]
+        assert winner(draw) is None
