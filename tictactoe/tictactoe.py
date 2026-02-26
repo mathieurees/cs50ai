@@ -35,8 +35,16 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
-
+    actions = []
+    row_count = 0
+    for row in board:
+        cell_count = 0
+        for cell in row:
+            if cell is EMPTY:
+                actions.append((row_count, cell_count))
+            cell_count += 1
+        row_count += 1
+    return actions
 
 def result(board, action):
     """
