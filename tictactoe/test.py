@@ -1,4 +1,4 @@
-from tictactoe import initial_state, EMPTY, X, O, player, actions, result, winner, terminal
+from tictactoe import initial_state, EMPTY, X, O, player, actions, result, winner, terminal, utility
 import pytest
 
 class TestPlayer():
@@ -169,3 +169,29 @@ class TestTerminal():
             [EMPTY, EMPTY, EMPTY]
         ]
         assert not terminal(ongoing)
+
+class TestUtility():
+
+    def test_returns_1_when_x_winner(self):
+        x_wins = [
+            [X, X, X],
+            [O, O, X],
+            [X, O, O]
+        ]
+        assert 1 == utility(x_wins)
+
+    def test_returns_minus_1_when_o_winner(self):
+        o_wins = [
+            [X, O, O],
+            [X, X, O],
+            [EMPTY, X, O]
+        ]
+        assert -1 == utility(o_wins)
+
+    def test_returns_0_when_game_a_draw(self):
+        draw = [
+            [X, O, X],
+            [X, O, X],
+            [O, X, O]
+        ]
+        assert 0 == utility(draw)
