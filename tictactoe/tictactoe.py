@@ -37,13 +37,13 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    actions = []
+    actions = set()
     row_count = 0
     for row in board:
         cell_count = 0
         for cell in row:
             if cell is EMPTY:
-                actions.append((row_count, cell_count))
+                actions.add((row_count, cell_count))
             cell_count += 1
         row_count += 1
     return actions
@@ -109,26 +109,37 @@ def utility(board):
 def find_max(board):
     if terminal(board):
         return utility(board)
-    boards = [result(board, action) for action in actions(board)]
-    return max([find_min(board) for board in boards])
+    max_val = -math.inf
+    for action in actions(board):
+        max_val = max(max_val, find_min(result(board, action)))
+    return max_val
 
 
 def find_min(board):
     if terminal(board):
         return utility(board)
-    boards = [result(board, action) for action in actions(board)]
-    return min([find_max(board) for board in boards])
+    min_val = math.inf
+    for action in actions(board):
+        min_val = min(min_val, find_max(result(board, action)))
+    return min_val
 
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
-  
-
-    
-    
-       
-
-    
+    current_player = player(board)
+    best_action = [None, 0]
+    for action in actions(board):
+        if current_player == X:
+            print("X")
+            max_action_value = find_min(result(board, action)) 
+            if max_action_value >= best_action[1]:
+                best_action = [action, max_action_value]
+        if current_player == O:
+            print("0")
+            min_action_value = find_max(result(board, action)) 
+            if min_action_value <= best_action[1]:
+                best_action = [action, min_action_value]
+        print(best_action)
+    return best_action[0]

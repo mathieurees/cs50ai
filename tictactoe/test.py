@@ -267,6 +267,20 @@ class TestFindMin():
         assert find_min(board) == 0
 
 
-@pytest.mark.skip
 class TestMinimax():
-    ...
+    
+    def test_trivial_case(self):
+        board = [
+            [X, X, EMPTY],
+            [O, O, X],
+            [X, O, O]
+        ]
+        assert minimax(board) == (0, 2)
+
+    def test_non_trivial_case(self):
+        board = [
+                [X, EMPTY, EMPTY],
+                [O, EMPTY, X],
+                [X, O, O]
+            ]
+        assert minimax(board) == (0, 2)
