@@ -54,7 +54,6 @@ def result(board, action):
     Returns the board that results from making move (i, j) on the board.
     """
     possible_actions = actions(board)
-    print(possible_actions)
     if action not in possible_actions:
         raise Exception("Invalid action.")
     current_player = player(board)
@@ -77,7 +76,6 @@ def winner(board):
                 diagonals[1] = diagonals[1] + [board[i][2-j]]
             rows[i] = rows[i] + [board[i][j]]
             columns[j] = columns[j] + [board[i][j]]
-    print(diagonals)
     for line in rows + columns + diagonals:
         if len(set(line)) == 1:
             if line[0]:
@@ -108,8 +106,29 @@ def utility(board):
     return -1
 
 
+def find_max(board):
+    if terminal(board):
+        return utility(board)
+    boards = [result(board, action) for action in actions(board)]
+    return max([find_min(board) for board in boards])
+
+
+def find_min(board):
+    if terminal(board):
+        return utility(board)
+    boards = [result(board, action) for action in actions(board)]
+    return min([find_max(board) for board in boards])
+
+
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
     raise NotImplementedError
+  
+
+    
+    
+       
+
+    

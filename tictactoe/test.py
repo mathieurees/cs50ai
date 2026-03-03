@@ -1,4 +1,4 @@
-from tictactoe import initial_state, EMPTY, X, O, player, actions, result, winner, terminal, utility
+from tictactoe import initial_state, EMPTY, X, O, player, actions, result, winner, terminal, utility, minimax, find_min, find_max
 import pytest
 
 class TestPlayer():
@@ -195,3 +195,78 @@ class TestUtility():
             [O, X, O]
         ]
         assert 0 == utility(draw)
+
+    
+class TestFindMax():
+
+    def test_base_case_(self):
+        x_wins = [
+            [X, X, X],
+            [O, O, X],
+            [X, O, O]
+        ]
+        o_wins = [
+            [X, O, O],
+            [X, X, O],
+            [EMPTY, X, O]
+        ]
+        draw = [
+            [X, O, X],
+            [X, O, X],
+            [O, X, O]
+        ]
+        assert find_max(x_wins) == 1
+        assert find_max(o_wins) == -1
+        assert find_max(draw) == 0
+
+    def test_lvl_one_recursion(self):
+        board = [
+            [X, X, EMPTY],
+            [O, O, X],
+            [X, O, O]
+        ]
+        assert find_max(board) == 1
+
+    def test_lvl_three_recursion(self):
+        board = [
+            [X, EMPTY, EMPTY],
+            [O, EMPTY, X],
+            [X, O, O]
+        ]
+        assert find_max(board) == 1
+
+
+class TestFindMin():
+
+    def test_base_case_(self):
+        x_wins = [
+            [X, X, X],
+            [O, O, X],
+            [X, O, O]
+        ]
+        o_wins = [
+            [X, O, O],
+            [X, X, O],
+            [EMPTY, X, O]
+        ]
+        draw = [
+            [X, O, X],
+            [X, O, X],
+            [O, X, O]
+        ]
+        assert find_min(x_wins) == 1
+        assert find_min(o_wins) == -1
+        assert find_min(draw) == 0
+
+    def test_lvl_two_recursion(self):
+        board = [
+            [X, X, EMPTY],
+            [O, EMPTY, X],
+            [X, O, O]
+        ]
+        assert find_min(board) == 0
+
+
+@pytest.mark.skip
+class TestMinimax():
+    ...
