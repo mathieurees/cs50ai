@@ -197,7 +197,7 @@ class MinesweeperAI():
         self.moves_made.add(cell)
         self.safes.add(cell)
         self.mark_safe(cell)
-        
+        # Add new sentence to knowledge base
         neighbours = []
         for i in range(cell[0]-1, cell[0]+2):
             for j in range(cell[1]-1, cell[1]+2):
@@ -205,7 +205,14 @@ class MinesweeperAI():
                     if (i, j) != cell:
                         neighbours.append((i, j))
         self.knowledge.append(Sentence(neighbours, count))
-
+        new_knowledge = []
+        for sentence in self.knowledge:
+            if sentence.known_mines():
+                print(sentence)
+                self.mines = self.mines.union(sentence.known_mines())
+            else:
+                new_knowledge.append(sentence)
+        self.knowledge = new_knowledge
 
     def make_safe_move(self):
         """

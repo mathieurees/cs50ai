@@ -54,19 +54,28 @@ class TestAddKnowledge():
         ai.add_knowledge((0,1), 3)
         assert ai.safes == set(((0,1),))
 
-    def test_updates_knowledge_give_safe_cell(self):
+    def test_updates_knowledge_given_safe_cell(self):
         ai = MinesweeperAI()
-        ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
+        ai.knowledge.append(Sentence([(0,1), (0,2), (0,3)], 1))
         ai.add_knowledge((0,1), 2)
-        assert ai.knowledge[0] == Sentence([(0,2)], 1)
+        assert ai.knowledge[0] == Sentence([(0,2), (0,3)], 1)
 
     def test_adds_new_sentence_to_knowledge(self):
         ai = MinesweeperAI()
         ai.add_knowledge((0, 0), 2)
-        ai.add_knowledge((7, 7), 3)
+        ai.add_knowledge((7, 7), 1)
         nearby_cells_top_left = [(0,1), (1,0), (1,1)]
         nearby_cells_btm_right = [(6,7), (6,6), (7,6)]
         top_left_sentence = Sentence(nearby_cells_top_left, 2) 
-        btm_right_sentence = Sentence(nearby_cells_btm_right, 3) 
+        btm_right_sentence = Sentence(nearby_cells_btm_right, 1) 
         assert ai.knowledge[0] == top_left_sentence
         assert ai.knowledge[1] == btm_right_sentence
+    
+    def test_updates_known_mines_given_safe_cell(self):
+        ai = MinesweeperAI()
+        ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
+        ai.add_knowledge((0,1), 2)
+        assert ai.mines == set(((0,2),))
+        for sentence in ai.knowledge:
+            print(sentence)
+        assert Sentence([(0,2)], 1) not in ai.knowledge
