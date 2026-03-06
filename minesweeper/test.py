@@ -76,6 +76,12 @@ class TestAddKnowledge():
         ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
         ai.add_knowledge((0,1), 2)
         assert ai.mines == set(((0,2),))
-        for sentence in ai.knowledge:
-            print(sentence)
         assert Sentence([(0,2)], 1) not in ai.knowledge
+
+    def test_updates_known_safes_given_safe_cell(self):
+        ai = MinesweeperAI()
+        ai.knowledge.append(Sentence([(0,1), (3,4)], 1))
+        ai.knowledge.append(Sentence([(3,4), (7,6)], 1))
+        ai.add_knowledge((0,1), 2)
+        assert ai.safes == set(((0,1), (7,6)))
+        assert Sentence([(7,6)], 1) not in ai.knowledge

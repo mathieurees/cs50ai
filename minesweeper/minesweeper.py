@@ -114,7 +114,6 @@ class Sentence():
         Returns the set of all cells in self.cells known to be safe.
         """
         if not self.count:
-            self.count -= 1
             return self.cells
         return set()
 
@@ -205,14 +204,21 @@ class MinesweeperAI():
                     if (i, j) != cell:
                         neighbours.append((i, j))
         self.knowledge.append(Sentence(neighbours, count))
+        # Mark infered known mines
         new_knowledge = []
         for sentence in self.knowledge:
             if sentence.known_mines():
-                print(sentence)
                 self.mines = self.mines.union(sentence.known_mines())
+                for mine in self.mines:
+                    self.mark_mine(mine)
             else:
                 new_knowledge.append(sentence)
         self.knowledge = new_knowledge
+        # Mark infered known safes
+        for sentence in self.knowledge:
+            if sentence.known_safes():
+                self.safes = self.safes.union(sentence.known_safes())
+
 
     def make_safe_move(self):
         """
