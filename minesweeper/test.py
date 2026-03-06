@@ -57,5 +57,5 @@ class TestAddKnowledge():
     def test_updates_knowledge(self):
         ai = MinesweeperAI()
         ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
-        print(ai.knowledge)
-        assert False 
+        ai.add_knowledge((0,1), 1)
+        assert ai.knowledge[0] == Sentence([(0,2)], 1)
