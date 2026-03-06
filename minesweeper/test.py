@@ -53,3 +53,9 @@ class TestAddKnowledge():
         ai = MinesweeperAI()
         ai.add_knowledge((0,1), 3)
         assert ai.safes == set(((0,1),))
+
+    def test_updates_knowledge(self):
+        ai = MinesweeperAI()
+        ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
+        print(ai.knowledge)
+        assert False 
