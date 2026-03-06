@@ -1,4 +1,4 @@
-from minesweeper import Sentence, Minesweeper
+from minesweeper import Sentence
 
 class TestSentence():
 
@@ -18,12 +18,26 @@ class TestSentence():
         sentence = Sentence([(0,1), (0,2)], 0)
         assert sentence.known_safes() == set(((0,1), (0,2)))
 
-    def test_mark_mine(self):
-        sentence = Sentence([(0,1), (0,2)], 0)
+    def test_mark_mine_relevant_cell(self):
+        sentence = Sentence([(0,1), (0,2)], 1)
         sentence.mark_mine((0,2))
         assert sentence.cells == set(((0,1),))
-    
-    def test_mark_safe(self):
-        sentence = Sentence([(0,1), (0,2)], 0)
+        assert sentence.count == 0
+
+    def test_mark_mine_irrelevant_cell(self):
+        sentence = Sentence([(0,1), (0,2)], 1)
+        sentence.mark_mine((0,5))
+        assert sentence.cells == set(((0,1), (0,2)))
+        assert sentence.count == 1
+
+    def test_mark_safe_relevant_cell(self):
+        sentence = Sentence([(0,1), (0,2)], 1)
         sentence.mark_safe((0,2))
         assert sentence.cells == set(((0,1),))
+        assert sentence.count == 1
+
+    def test_mark_safe_irrelevant_cell(self):
+        sentence = Sentence([(0,1), (0,2)], 1)
+        sentence.mark_safe((0,5))
+        assert sentence.cells == set(((0,1), (0,2)))
+        assert sentence.count == 1
