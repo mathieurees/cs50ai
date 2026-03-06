@@ -197,6 +197,14 @@ class MinesweeperAI():
         self.moves_made.add(cell)
         self.safes.add(cell)
         self.mark_safe(cell)
+        
+        neighbours = []
+        for i in range(cell[0]-1, cell[0]+2):
+            for j in range(cell[1]-1, cell[1]+2):
+                if 0 <= i < self.height and 0 <= j < self.width:
+                    if (i, j) != cell:
+                        neighbours.append((i, j))
+        self.knowledge.append(Sentence(neighbours, count))
 
 
     def make_safe_move(self):

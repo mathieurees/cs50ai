@@ -54,8 +54,19 @@ class TestAddKnowledge():
         ai.add_knowledge((0,1), 3)
         assert ai.safes == set(((0,1),))
 
-    def test_updates_knowledge(self):
+    def test_updates_knowledge_give_safe_cell(self):
         ai = MinesweeperAI()
         ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
-        ai.add_knowledge((0,1), 1)
+        ai.add_knowledge((0,1), 2)
         assert ai.knowledge[0] == Sentence([(0,2)], 1)
+
+    def test_adds_new_sentence_to_knowledge(self):
+        ai = MinesweeperAI()
+        ai.add_knowledge((0, 0), 2)
+        ai.add_knowledge((7, 7), 3)
+        nearby_cells_top_left = [(0,1), (1,0), (1,1)]
+        nearby_cells_btm_right = [(6,7), (6,6), (7,6)]
+        top_left_sentence = Sentence(nearby_cells_top_left, 2) 
+        btm_right_sentence = Sentence(nearby_cells_btm_right, 3) 
+        assert ai.knowledge[0] == top_left_sentence
+        assert ai.knowledge[1] == btm_right_sentence
