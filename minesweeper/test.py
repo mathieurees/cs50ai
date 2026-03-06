@@ -48,3 +48,8 @@ class TestAddKnowledge():
         ai = MinesweeperAI()
         ai.add_knowledge((0,1), 3)
         assert ai.moves_made == set(((0,1),))
+
+    def test_mark_cell_as_safe_cell(self):
+        ai = MinesweeperAI()
+        ai.add_knowledge((0,1), 3)
+        assert ai.safes == set(((0,1),))
