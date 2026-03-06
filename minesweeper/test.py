@@ -1,4 +1,4 @@
-from minesweeper import Sentence
+from minesweeper import Sentence, MinesweeperAI
 
 class TestSentence():
 
@@ -41,3 +41,10 @@ class TestSentence():
         sentence.mark_safe((0,5))
         assert sentence.cells == set(((0,1), (0,2)))
         assert sentence.count == 1
+
+class TestAddKnowledge():
+
+    def test_mark_cell_as_made_move(self):
+        ai = MinesweeperAI()
+        ai.add_knowledge((0,1), 3)
+        assert ai.moves_made == set(((0,1),))
