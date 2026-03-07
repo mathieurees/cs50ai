@@ -92,3 +92,15 @@ class TestAddKnowledge():
         ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
         ai.add_knowledge((6,6), 1)
         assert Sentence([(0,3), (0,4)], 1) in ai.knowledge
+
+class TestMakeSafeMove():
+
+    def test_returns_none_when_no_safe_move_known(self):
+        ai = MinesweeperAI()
+        ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
+        assert ai.make_safe_move() is None
+
+    def test_returns_safe_move(self):
+        ai = MinesweeperAI()
+        ai.add_knowledge((0,1), 0)
+        assert ai.make_safe_move() == (0,1)
