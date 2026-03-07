@@ -85,3 +85,10 @@ class TestAddKnowledge():
         ai.add_knowledge((0,1), 2)
         assert ai.safes == set(((0,1), (7,6)))
         assert Sentence([(7,6)], 1) not in ai.knowledge
+
+    def test_makes_subset_inference(self):
+        ai = MinesweeperAI()
+        ai.knowledge.append(Sentence([(0,1), (0,2), (0,3), (0,4)], 2))
+        ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
+        ai.add_knowledge((6,6), 1)
+        assert Sentence([(0,3), (0,4)], 1) in ai.knowledge

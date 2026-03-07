@@ -218,7 +218,15 @@ class MinesweeperAI():
         for sentence in self.knowledge:
             if sentence.known_safes():
                 self.safes = self.safes.union(sentence.known_safes())
-
+        # Make inference
+        inferences = []
+        for sentence_0 in self.knowledge:
+            for sentence_1 in self.knowledge:
+                if sentence_0.cells < sentence_1.cells:
+                    new_cells = sentence_1.cells - sentence_0.cells
+                    new_count = sentence_1.count - sentence_0.count
+                    inferences.append(Sentence(new_cells, new_count))
+        self.knowledge += inferences
 
     def make_safe_move(self):
         """
