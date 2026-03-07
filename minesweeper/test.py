@@ -104,3 +104,37 @@ class TestMakeSafeMove():
         ai = MinesweeperAI()
         ai.add_knowledge((0,1), 0)
         assert ai.make_safe_move() == (0,1)
+
+class TestMakeRandomMove():
+    
+    def test_random_returns_none_when_no_viable_move(self):
+        ai = MinesweeperAI()
+        for i in range(8):
+            for j in range(8):
+                if i != j:
+                    ai.moves_made.add((i, j))
+                else:
+                    ai.mines.add((i, j))
+        assert ai.make_random_move() is None
+
+    def test_random_returns_move_not_yet_made(self):
+        ai = MinesweeperAI()
+        for i in range(8):
+            for j in range(8):
+                if i != j:
+                    ai.moves_made.add((i, j))
+                else:
+                    ai.mines.add((i, j))
+        ai.moves_made.remove((0,1))
+        assert ai.make_random_move() == (0,1)
+
+    def test_random_returns_move_not_known_mine(self):
+        ai = MinesweeperAI()
+        for i in range(8):
+            for j in range(8):
+                if i != j:
+                    ai.moves_made.add((i, j))
+                else:
+                    ai.mines.add((i, j))
+        ai.mines.remove((0,0))
+        assert ai.make_random_move() == (0,0)
