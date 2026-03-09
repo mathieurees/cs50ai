@@ -1,4 +1,5 @@
 from minesweeper import Sentence, MinesweeperAI
+import pytest
 
 class TestSentence():
 
@@ -54,12 +55,6 @@ class TestAddKnowledge():
         ai.add_knowledge((0,1), 3)
         assert ai.safes == set(((0,1),))
 
-    def test_updates_knowledge_given_safe_cell(self):
-        ai = MinesweeperAI()
-        ai.knowledge.append(Sentence([(0,1), (0,2), (0,3)], 1))
-        ai.add_knowledge((0,1), 2)
-        assert ai.knowledge[0] == Sentence([(0,2), (0,3)], 1)
-
     def test_adds_new_sentence_to_knowledge(self):
         ai = MinesweeperAI()
         ai.add_knowledge((0, 0), 2)
@@ -70,29 +65,42 @@ class TestAddKnowledge():
         btm_right_sentence = Sentence(nearby_cells_btm_right, 1) 
         assert ai.knowledge[0] == top_left_sentence
         assert ai.knowledge[1] == btm_right_sentence
+
+    def test_infers_new_safe_cell(self):
+        ai = MinesweeperAI()
+        ai.mines = set(((1,1),))
+        ai.add_knowledge((0,0), 1)
+        assert (0, 1) in ai.safes
+        assert (1, 0) in ai.safes
+
+    def test_infers_new_mine_trivial(self):
+        ai = MinesweeperAI()
+        ai.add_knowledge((0,0), 3)
+        assert set(((0,1), (1,0), (1,1))) == ai.mines
+
+    def test_infers_new_mine_from_safe(self):
+        ai = MinesweeperAI()
+        ai.knowledge.append(Sentence([(1,1), (2,2), (3,3),], 2))
+        ai.add_knowledge((0,0), 0)
+        assert set(((2,2), (3,3))) == ai.mines
+
+    def test_infers_new_safes_trivial(self):
+        ai = MinesweeperAI()
+        ai.add_knowledge((0,0), 0)
+        assert set(((0,0),(0,1), (1,0), (1,1))) == ai.safes
     
-    def test_updates_known_mines_given_safe_cell(self):
+    def test_infers_new_safes_from_safe(self):
         ai = MinesweeperAI()
-        ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
-        ai.add_knowledge((0,1), 2)
-        assert ai.mines == set(((0,2),))
-        assert Sentence([(0,2)], 1) not in ai.knowledge
-
-    def test_updates_known_safes_given_safe_cell(self):
+        ai.knowledge.append(Sentence([(1,1), (2,2), (3,3),], 1))
+        ai.add_knowledge((0,0), 3)
+        assert set(((0,0), (2,2), (3,3))) == ai.safes
+    
+    def test_makes_subset_inference_given_new_knowledge(self):
         ai = MinesweeperAI()
-        ai.knowledge.append(Sentence([(0,1), (3,4)], 1))
-        ai.knowledge.append(Sentence([(3,4), (7,6)], 1))
-        ai.add_knowledge((0,1), 2)
-        assert ai.safes == set(((0,1), (7,6)))
-        assert Sentence([(7,6)], 1) not in ai.knowledge
-
-    def test_makes_subset_inference(self):
-        ai = MinesweeperAI()
-        ai.knowledge.append(Sentence([(0,1), (0,2), (0,3), (0,4)], 2))
-        ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
-        ai.add_knowledge((6,6), 1)
-        assert Sentence([(0,3), (0,4)], 1) in ai.knowledge
-
+        ai.knowledge.append(Sentence([(0,1), (1,0), (1,1), (1,2), (1,3)], 4))
+        ai.add_knowledge((0,0), 3)
+        assert Sentence([(1,2), (1,3)], 1) in ai.knowledge
+        
 class TestMakeSafeMove():
 
     def test_returns_none_when_no_safe_move_known(self):
@@ -100,10 +108,19 @@ class TestMakeSafeMove():
         ai.knowledge.append(Sentence([(0,1), (0,2)], 1))
         assert ai.make_safe_move() is None
 
+    def test_returns_none_when_moves_allready_chosen(self):
+        ai = MinesweeperAI()
+        for i in range(8):
+            for j in range(8):    
+                ai.moves_made.add((i, j))
+        ai.add_knowledge((0,1), 0)
+        assert ai.make_safe_move() is None
+
     def test_returns_safe_move(self):
         ai = MinesweeperAI()
-        ai.add_knowledge((0,1), 0)
-        assert ai.make_safe_move() == (0,1)
+        ai.knowledge.append(Sentence([(0,1), (0,2), (0,3)], 1))
+        ai.add_knowledge((0,0), 3)
+        assert ai.make_safe_move() == (0,2)
 
 class TestMakeRandomMove():
     
