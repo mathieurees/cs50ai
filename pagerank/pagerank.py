@@ -105,10 +105,16 @@ def iterate_pagerank(corpus, damping_factor):
     ranking = {page: 1/len(corpus) for page in corpus}
     THRESHOLD = 0.001
     while True:
+        old_ranking = ranking
         new_ranking = ranking
-        for page in new_ranking:
-            new_ranking[page] = rank_page(page, ranking, damping_factor, corpus)
-        if check_convergence(ranking, new_ranking, THRESHOLD):
+        for page in old_ranking:
+            new_ranking[page] = rank_page(page, old_ranking, damping_factor, corpus)
+        # Normalise
+        for i in range(10000):
+            for page in new_ranking:
+                new_ranking[page] = new_ranking[page] / sum(new_ranking.values())
+        ranking = new_ranking
+        if check_convergence(old_ranking, new_ranking, THRESHOLD):
             break
     return ranking
 
@@ -127,7 +133,7 @@ def check_convergence(old_ranking, new_ranking, threshold):
 def rank_page(page, old_ranking, damping_factor, corpus):
     """
     Returns the rank, a float, of the page, a string. Works out 
-    the current ranke of the input page given the old_ranking of 
+    the current rank of the input page given the old_ranking of 
     pages linking to input page, as encoded by corpus. old_ranking and corpus 
     should be of type dict, with values of type float and list of strins,
     respectively. The damping_factor should be of type float.
