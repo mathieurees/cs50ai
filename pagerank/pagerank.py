@@ -102,8 +102,44 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    return {}
+    ranking = {page: 1/len(corpus) for page in corpus}
+    THRESHOLD = 0.001
+    while True:
+        new_ranking = ranking
+        for page in new_ranking:
+            new_ranking[page] = rank_page(page, ranking, damping_factor, corpus)
+        if check_convergence(ranking, new_ranking, THRESHOLD):
+            break
+    return ranking
 
+def check_convergence(old_ranking, new_ranking, threshold):
+    """
+    Returns true if the difference between every value in 
+    old_ranking and new_ranking is no greater than threshold.
+    Returns false othersie. Threshold should be a float, while
+    old_ranking and new_ranking should be dicts with float values.
+    """
+    old_values = old_ranking.values()
+    new_values = [new_ranking[page] for page in old_ranking] # Ensure order is correct
+    differences = [abs(old - new) for old, new in zip(old_values, new_values)]
+    return all(difference <= threshold for difference in differences)
+
+def rank_page(page, old_ranking, damping_factor, corpus):
+    """
+    Returns the rank, a float, of the page, a string. Works out 
+    the current ranke of the input page given the old_ranking of 
+    pages linking to input page, as encoded by corpus. old_ranking and corpus 
+    should be of type dict, with values of type float and list of strins,
+    respectively. The damping_factor should be of type float.
+    """
+    pr_page_from_rndm = (1 - damping_factor) / len(corpus)
+    links_to_page = corpus[page]
+    pr_page_from_link = 0
+    for link_to_page in links_to_page:
+        link_rank = old_ranking[link_to_page]
+        links_to_link = len(corpus[link_to_page])
+        pr_page_from_link += link_rank / links_to_link
+    return pr_page_from_rndm + (damping_factor * pr_page_from_link)
 
 if __name__ == "__main__":
     main()

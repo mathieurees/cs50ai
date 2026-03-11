@@ -1,4 +1,4 @@
-from pagerank import DAMPING, SAMPLES, crawl, transition_model, sample_pagerank
+from pagerank import DAMPING, SAMPLES, crawl, transition_model, sample_pagerank, check_convergence, rank_page, iterate_pagerank
 import math
 
 class TestTransitionModel():
@@ -58,3 +58,55 @@ class TestSamplePagerank():
         for page in rankings:
             value_sum += rankings[page]
         assert math.isclose(value_sum, 1)
+
+class TestCheckConvergence():
+
+    def test_returns_false_given_no_convergence(self):
+        assert not check_convergence({"Test1": 0.5}, {"Test1": 1.5}, 0.5)
+
+    def test_returns_true_given_convergence(self):
+        assert check_convergence({"Test1": 0.5}, {"Test1": 0.9}, 0.5)
+
+class TestRankPage():
+
+    def test_no_randomness(self):
+        page = "Test1"
+        old_ranking = {
+            "Test1": 0.25,
+            "Test2": 0.25,
+            "Test3": 0.25,
+            "Test4": 0.25,
+        }
+        damping = 1
+        corpus = {
+            "Test1": ["Test2"],
+            "Test2": ["Test3"],
+            "Test3": ["Test4"],
+            "Test4": ["Test1"],
+        }
+        assert rank_page(page, old_ranking, damping, corpus) == 0.25
+
+    def test_all_randomness(self):
+        page = "Test1"
+        old_ranking = {
+            "Test1": 0.25,
+            "Test2": 0.25,
+            "Test3": 0.25,
+            "Test4": 0.25,
+        }
+        damping = 0
+        corpus = {
+            "Test1": ["Test2"],
+            "Test2": ["Test3"],
+            "Test3": ["Test4"],
+            "Test4": ["Test1"],
+        }
+        assert rank_page(page, old_ranking, damping, corpus) == 0.25
+
+class TestIteratePagerank():
+
+    def test_correct_highest_value(self):
+        test_corpus = crawl("corpus0")
+        rankings = iterate_pagerank(test_corpus, DAMPING)
+        highest_rank = rankings.pop("2.html")
+        assert all(rankings[page] < highest_rank for page in rankings)
