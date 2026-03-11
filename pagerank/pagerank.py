@@ -57,14 +57,19 @@ def transition_model(corpus, page, damping_factor):
     linked to by `page`. With probability `1 - damping_factor`, choose
     a link at random chosen from all pages in the corpus.
     """
-    distribution = {x: 0 for x in corpus}
+    distribution = {page: 0 for page in corpus}
     links = [link for link in corpus[page]]
-    link_prob = damping_factor / len(links)
-    for link in links:
-        distribution[link] += link_prob
-    non_link_prob = (1 - damping_factor) / len(distribution)
-    for page in distribution:
-        distribution[page] += non_link_prob
+    if links:
+        link_prob = damping_factor / len(links)
+        for link in links:
+            distribution[link] += link_prob
+        non_link_prob = (1 - damping_factor) / len(distribution)
+        for page in distribution:
+            distribution[page] += non_link_prob
+    else:
+        non_link_prob = 1 / len(distribution)
+        for page in distribution:
+            distribution[page] += non_link_prob
     return distribution
 
 
