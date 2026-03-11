@@ -18,7 +18,7 @@ class TestTransitionModel():
             actual_prob = actual[page]
             sum_probs += actual_prob
             expected_prob = expected[page]
-            assert  math.isclose(actual_prob, expected_prob)
+            assert math.isclose(actual_prob, expected_prob)
         assert math.isclose(sum_probs, 1)
 
     def test_no_links_to_page(self):
@@ -40,5 +40,13 @@ class TestTransitionModel():
             actual_prob = actual[page]
             sum_probs += actual_prob
             expected_prob = expected[page]
-            assert  math.isclose(actual_prob, expected_prob)
+            assert math.isclose(actual_prob, expected_prob)
         assert math.isclose(sum_probs, 1)
+
+class TestSamplePagerank():
+
+    def test_correct_highest_value(self):
+        test_corpus = crawl("corpus0")
+        rankings = sample_pagerank(test_corpus, DAMPING, SAMPLES)
+        highest_rank = rankings.pop("2.html")
+        assert all(rankings[page] < highest_rank for page in rankings)
