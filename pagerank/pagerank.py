@@ -91,7 +91,7 @@ def sample_pagerank(corpus, damping_factor, n):
         sample = random.choices(population, weights=weights)[0] 
         tally[sample] += 1
     return {page: tally[page] / n for page in tally}
-
+    
 
 def iterate_pagerank(corpus, damping_factor):
     """
@@ -103,20 +103,16 @@ def iterate_pagerank(corpus, damping_factor):
     PageRank values should sum to 1.
     """
     ranking = {page: 1/len(corpus) for page in corpus}
+    old_ranking = ranking.copy()
+    new_ranking = ranking.copy()
     THRESHOLD = 0.001
     while True:
-        old_ranking = ranking
-        new_ranking = ranking
         for page in old_ranking:
             new_ranking[page] = rank_page(page, old_ranking, damping_factor, corpus)
-        # Normalise
-        for i in range(10000):
-            for page in new_ranking:
-                new_ranking[page] = new_ranking[page] / sum(new_ranking.values())
-        ranking = new_ranking
         if check_convergence(old_ranking, new_ranking, THRESHOLD):
             break
-    return ranking
+        old_ranking = new_ranking.copy()
+    return new_ranking
 
 def check_convergence(old_ranking, new_ranking, threshold):
     """
@@ -139,7 +135,7 @@ def rank_page(page, old_ranking, damping_factor, corpus):
     respectively. The damping_factor should be of type float.
     """
     pr_page_from_rndm = (1 - damping_factor) / len(corpus)
-    links_to_page = corpus[page]
+    links_to_page = [other for other in corpus if page in corpus[other]]
     pr_page_from_link = 0
     for link_to_page in links_to_page:
         link_rank = old_ranking[link_to_page]

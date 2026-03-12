@@ -58,7 +58,7 @@ class TestSamplePagerank():
         for page in rankings:
             value_sum += rankings[page]
         assert math.isclose(value_sum, 1)
-
+        
 class TestCheckConvergence():
 
     def test_returns_false_given_no_convergence(self):
@@ -110,6 +110,12 @@ class TestIteratePagerank():
         rankings = iterate_pagerank(test_corpus, DAMPING)
         highest_rank = rankings.pop("2.html")
         assert all(rankings[page] < highest_rank for page in rankings)
+    
+    def test_correct_range(self):
+        test_corpus =  {'1': {'2'}, '2': {'3', '1'}, '3': {'2', '4'}, '4': {'2'}}
+        rankings = iterate_pagerank(test_corpus, DAMPING)
+        highest_rank = rankings.pop("1")
+        assert 0.21791 <= highest_rank <= 0.22191
 
     def test_values_sum_to_one(self):
         test_corpus = crawl("corpus0")
