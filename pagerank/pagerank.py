@@ -134,6 +134,10 @@ def rank_page(page, old_ranking, damping_factor, corpus):
     should be of type dict, with values of type float and list of strins,
     respectively. The damping_factor should be of type float.
     """
+    corpus = corpus.copy()
+    for each in corpus:
+        if not corpus[each]:
+            corpus[each] = corpus.keys()
     pr_page_from_rndm = (1 - damping_factor) / len(corpus)
     links_to_page = [other for other in corpus if page in corpus[other]]
     pr_page_from_link = 0
