@@ -141,12 +141,28 @@ def joint_probability(people, one_gene, two_genes, have_trait):
     """
     raise NotImplementedError
 
-def check_one_gene(people, person):
+def check_one_gene(people, one_genes, two_genes, have_trait):
     """
-    Returns probability that the person has one gene, given info in people.
+    Returns probability that one_gene people have one_gene given info in people.
     """
-    if not people[person]["mother"]:
-        return PROBS["gene"][1]
+    has_one_gene = 1.0
+    for person in one_genes:
+        if not people[person]["mother"]:
+            has_one_gene *= PROBS["gene"][1]
+        else:
+            mother, father = people[person]["mother"], people[person]["father"]
+            mother_has_one_gene = float(mother in one_genes | two_genes)
+            gets_gene_from_mother = abs(mother_has_one_gene - PROBS["mutation"])
+            not_gets_gene_from_mother = 1.0 - gets_gene_from_mother
+            father_has_one_gene = float(father in one_genes | two_genes)
+            gets_gene_from_father = abs(father_has_one_gene - PROBS["mutation"])
+            not_gets_gene_from_father = 1.0 - gets_gene_from_father
+            mother_not_father = gets_gene_from_mother * not_gets_gene_from_father
+            father_not_mother = gets_gene_from_father * not_gets_gene_from_mother
+            has_one_gene *= (mother_not_father + father_not_mother)    
+    return has_one_gene
+
+
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
     """
