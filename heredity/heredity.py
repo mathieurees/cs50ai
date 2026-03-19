@@ -141,9 +141,10 @@ def joint_probability(people, one_gene, two_genes, have_trait):
     """
     raise NotImplementedError
 
-def check_one_gene(people, one_genes, two_genes, have_trait):
+def check_one_gene(people, one_genes, two_genes):
     """
-    Returns probability that one_gene people have one_gene given info in people.
+    Returns probability that people in one_genes have one copy of gene 
+    given info in people.
     """
     has_one_gene = 1.0
     for person in one_genes:
@@ -168,6 +169,17 @@ def check_one_gene(people, one_genes, two_genes, have_trait):
 
     return has_one_gene
 
+
+def check_two_genes(people, one_genes, two_genes):
+    """
+    Returns probability that people in two_genes have two copies of gene 
+    given info in people.
+    """
+    has_two_genes = 1.0
+    for person in two_genes:
+        if not people[person]["mother"]:
+            has_two_genes *= PROBS["gene"][2]
+    return has_two_genes
 
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
