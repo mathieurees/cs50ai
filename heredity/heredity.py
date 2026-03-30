@@ -179,6 +179,21 @@ def check_two_genes(people, one_genes, two_genes):
     for person in two_genes:
         if not people[person]["mother"]:
             has_two_genes *= PROBS["gene"][2]
+        else:
+            print('X')
+            mother, father = people[person]["mother"], people[person]["father"]
+            
+            mother_one_gene = float(mother in one_genes) 
+            mother_two_genes = float(mother in two_genes)
+            gets_gene_from_mother = abs(mother_two_genes + (mother_one_gene / 2) - PROBS["mutation"])
+    
+            father_one_gene = float(father in one_genes) 
+            father_two_genes = float(father in two_genes)
+            gets_gene_from_father = abs(father_two_genes + (father_one_gene / 2) - PROBS["mutation"])
+
+            mother_and_father = gets_gene_from_mother * gets_gene_from_father
+            has_two_genes *= (mother_and_father * 2)   
+
     return has_two_genes
 
 
