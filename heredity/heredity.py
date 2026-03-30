@@ -180,7 +180,6 @@ def check_two_genes(people, one_genes, two_genes):
         if not people[person]["mother"]:
             has_two_genes *= PROBS["gene"][2]
         else:
-            print('X')
             mother, father = people[person]["mother"], people[person]["father"]
             
             mother_one_gene = float(mother in one_genes) 

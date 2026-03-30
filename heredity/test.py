@@ -41,3 +41,9 @@ class TestCheckTwoGenes():
         actual = check_two_genes(people, set(), {"Harry", "James"})
         excepted = 0.000198
         assert isclose(actual, excepted)
+
+    def test_check_two_genes_two_parents_have_two_genes(self):
+        people = load_data("data/family0.csv")
+        actual = check_two_genes(people, set(), {"Harry", "James", "Lily"})
+        excepted = 0.00019602
+        assert isclose(actual, excepted)
