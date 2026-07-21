@@ -11,7 +11,7 @@ class TestHasParents:
     def test_without_parents(self):
         assert not has_parents(PEOPLE, "James")
 
-class TestGeneProb:
+class TestGeneProbNoParents:
 
     def test_one_gene(self):
         assert gene_prob_no_parents(PEOPLE, 'Lily', 1) == 0.03
