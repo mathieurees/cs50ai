@@ -139,6 +139,33 @@ def gene_prob_no_parents(gene_number):
     return PROBS["gene"][gene_number]
 
 
+def gene_prob_with_parents(people, person, one_gene, two_genes, gene_number):
+    father = people[person]["father"]
+    mother = people[person]["mother"]
+
+    if father in two_genes:
+        prob_gene_from_father = 1 - PROBS["mutation"]
+    elif father in one_gene:
+        prob_gene_from_father = 0.5 - PROBS["mutation"]
+    else:
+        prob_gene_from_father = PROBS["mutation"]
+
+    if mother in two_genes:
+        prob_gene_from_mother = 1 - PROBS["mutation"]
+    elif father in one_gene:
+        prob_gene_from_mother = 0.5 - PROBS["mutation"]
+    else:
+        prob_gene_from_mother = PROBS["mutation"]
+
+    if gene_number == 2:
+        ...
+    if gene_number == 1:
+        return (prob_gene_from_mother * (1 - prob_gene_from_father)) + (prob_gene_from_father * (1 - prob_gene_from_mother))
+    if gene_number == 0:
+        ...
+
+
+
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
     Compute and return a joint probability.

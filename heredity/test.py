@@ -18,3 +18,9 @@ class TestGeneProbNoParents:
 
     def test_two_genes(self):
         assert gene_prob_no_parents(2) == 0.01
+
+class TestGeneProbWithParents:
+
+    def test_one_gene(self):
+        assert gene_prob_with_parents(PEOPLE, 'Harry', {"Harry"}, {"James"}, 1) == 0.9802
+
