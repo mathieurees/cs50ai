@@ -1,54 +1,12 @@
-from heredity import load_data, check_one_gene, check_two_genes, joint_probability
+from heredity import *
 from math import isclose
 
 PEOPLE = load_data("data/family0.csv")
 
-class TestCheckOneGene():
+class TestHasParents:
 
-    def test_check_one_gene_no_listed_parents(self):
-        actual = check_one_gene(PEOPLE, {"Lily"}, {"James"})
-        excepted = 0.03
-        assert isclose(actual, excepted)
-
-    def test_check_one_gene_one_parent_has_two_genes(self):
-        actual = check_one_gene(PEOPLE, {"Harry"}, {"James"})
-        excepted = 0.9802
-        assert isclose(actual, excepted)
-
-    def test_check_one_gene_both_parents_have_two_genes(self):
-        actual = check_one_gene(PEOPLE, {"Harry"}, {"James", "Lily"})
-        excepted = 0.0198
-        assert isclose(actual, excepted)
-
-    def test_check_one_gene_one_parent_has_one_gene(self):
-        actual = check_one_gene(PEOPLE, {"Harry", "James"}, set())
-        excepted = 0.014705999999999999
-        assert isclose(actual, excepted)
-
-
-class TestCheckTwoGenes():
-
-    def test_check_two_genes_no_listed_parents(self):
-        actual = check_two_genes(PEOPLE, {"Lily"}, {"James"})
-        excepted = 0.01
-        assert isclose(actual, excepted)
-
-    def test_check_two_genes_one_parent_has_two_genes(self):
-        actual = check_two_genes(PEOPLE, set(), {"Harry", "James"})
-        excepted = 0.000198
-        assert isclose(actual, excepted)
-
-    def test_check_two_genes_two_parents_have_two_genes(self):
-        actual = check_two_genes(PEOPLE, set(), {"Harry", "James", "Lily"})
-        excepted = 0.00019602
-        assert isclose(actual, excepted)
-
-    def test_check_two_genes_two_parents_have_one_gene(self):
-        actual = check_two_genes(PEOPLE, {"James", "Lily"}, {"Harry"})
-        excepted = 0.48019999999999996
-        assert isclose(actual, excepted)
+    def test_with_parents(self):
+        assert has_parents(PEOPLE, "Harry")
     
-    def test_check_two_genes_one_gene_and_two_gene_parents(self):
-        actual = check_two_genes(PEOPLE, {"James"}, {"Harry", "Lily"})
-        excepted = 0.009702
-        assert isclose(actual, excepted)
+    def test_without_parents(self):
+        assert not has_parents(PEOPLE, "James")

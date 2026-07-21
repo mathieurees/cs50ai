@@ -127,6 +127,12 @@ def powerset(s):
         )
     ]
 
+def has_parents(people, person):
+    """
+    Returns whether person has parent in people.
+    """
+    return bool(people[person]["mother"])
+
 
 def joint_probability(people, one_gene, two_genes, have_trait):
     """
@@ -140,60 +146,6 @@ def joint_probability(people, one_gene, two_genes, have_trait):
         * everyone not in set` have_trait` does not have the trait.
     """
     raise NotImplementedError
-
-def check_one_gene(people, one_genes, two_genes):
-    """
-    Returns probability that people in one_genes have one copy of gene 
-    given info in people.
-    """
-    has_one_gene = 1.0
-    for person in one_genes:
-        if not people[person]["mother"]:
-            has_one_gene *= PROBS["gene"][1]
-        else:
-            mother, father = people[person]["mother"], people[person]["father"]
-
-            mother_one_gene = float(mother in one_genes) 
-            mother_two_genes = float(mother in two_genes)
-            gets_gene_from_mother = abs(mother_two_genes + (mother_one_gene / 2) - PROBS["mutation"])
-            not_gets_gene_from_mother = 1.0 - gets_gene_from_mother
-
-            father_one_gene = float(father in one_genes) 
-            father_two_genes = float(father in two_genes)
-            gets_gene_from_father = abs(father_two_genes + (father_one_gene / 2) - PROBS["mutation"])
-            not_gets_gene_from_father = 1.0 - gets_gene_from_father
-
-            mother_not_father = gets_gene_from_mother * not_gets_gene_from_father
-            father_not_mother = gets_gene_from_father * not_gets_gene_from_mother
-            has_one_gene *= (mother_not_father + father_not_mother)    
-
-    return has_one_gene
-
-
-def check_two_genes(people, one_genes, two_genes):
-    """
-    Returns probability that people in two_genes have two copies of gene 
-    given info in people.
-    """
-    has_two_genes = 1.0
-    for person in two_genes:
-        if not people[person]["mother"]:
-            has_two_genes *= PROBS["gene"][2]
-        else:
-            mother, father = people[person]["mother"], people[person]["father"]
-            
-            mother_one_gene = float(mother in one_genes) 
-            mother_two_genes = float(mother in two_genes)
-            gets_gene_from_mother = abs(mother_two_genes + (mother_one_gene / 2) - PROBS["mutation"])
-    
-            father_one_gene = float(father in one_genes) 
-            father_two_genes = float(father in two_genes)
-            gets_gene_from_father = abs(father_two_genes + (father_one_gene / 2) - PROBS["mutation"])
-
-            mother_and_father = gets_gene_from_mother * gets_gene_from_father
-            has_two_genes *= (mother_and_father * 2)   
-
-    return has_two_genes
 
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
