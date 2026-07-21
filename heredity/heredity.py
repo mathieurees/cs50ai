@@ -135,7 +135,7 @@ def has_parents(people, person):
     return bool(people[person]["mother"])
 
 
-def gene_prob_no_parents(people, person, gene_number):
+def gene_prob_no_parents(gene_number):
     return PROBS["gene"][gene_number]
 
 
