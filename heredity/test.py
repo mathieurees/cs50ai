@@ -13,8 +13,8 @@ class TestHasParents:
 
 class TestGeneProb:
 
-    def test_one_gene_no_parents(self):
-        assert gene_prob(PEOPLE, 'Lily', 1) == 0.03
+    def test_one_gene(self):
+        assert gene_prob_no_parents(PEOPLE, 'Lily', 1) == 0.03
 
-    def test_two_genes_no_parents(self):
-        assert gene_prob(PEOPLE, 'Lily', 2) == 0.01
+    def test_two_genes(self):
+        assert gene_prob_no_parents(PEOPLE, 'Lily', 2) == 0.01
