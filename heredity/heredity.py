@@ -127,11 +127,18 @@ def powerset(s):
         )
     ]
 
+
 def has_parents(people, person):
     """
     Returns whether person has parent in people.
     """
     return bool(people[person]["mother"])
+
+
+def gene_prob(people, person, gene_number):
+    if has_parents(people, person):
+        ...
+    return PROBS["gene"][gene_number]
 
 
 def joint_probability(people, one_gene, two_genes, have_trait):
