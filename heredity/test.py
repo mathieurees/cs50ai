@@ -67,4 +67,10 @@ class TestTraitProbabilities:
         }
         actual = trait_probabilities(PEOPLE, {"Harry"}, {"James"}, {"James"})  
         assert all (isclose(expected[person], actual[person]) for person in expected)  
-        
+
+class TestJointProbability:
+
+    def test_diverse_values(self):
+        expected = 0.0026643247488
+        actual = joint_probability(PEOPLE, {"Harry"}, {"James"}, {"James"})  
+        assert isclose(expected, actual)      

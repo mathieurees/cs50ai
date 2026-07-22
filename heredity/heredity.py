@@ -222,8 +222,12 @@ def joint_probability(people, one_gene, two_genes, have_trait):
         * everyone in set `have_trait` has the trait, and
         * everyone not in set` have_trait` does not have the trait.
     """
-    raise NotImplementedError
-
+    gene_probs = gene_probabilities(people, one_gene, two_genes)
+    trait_probs = trait_probabilities(people, one_gene, two_genes, have_trait)
+    joint_probability = 1
+    for person in gene_probs:
+        joint_probability *= (gene_probs[person] * trait_probs[person])
+    return joint_probability
 
 def update(probabilities, one_gene, two_genes, have_trait, p):
     """
