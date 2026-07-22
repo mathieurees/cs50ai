@@ -56,3 +56,15 @@ class TestGeneProbabilites:
         }
         actual = gene_probabilities(PEOPLE, {"Harry"}, {"James"})  
         assert all (isclose(expected[person], actual[person]) for person in expected)  
+
+class TestTraitProbabilities:
+
+    def test_diverse_values(self):
+        expected = {
+            "Harry": 0.44,
+            "James": 0.65,
+            "Lily": 0.99
+        }
+        actual = trait_probabilities(PEOPLE, {"Harry"}, {"James"}, {"James"})  
+        assert all (isclose(expected[person], actual[person]) for person in expected)  
+        

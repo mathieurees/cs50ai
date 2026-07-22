@@ -169,7 +169,7 @@ def gene_prob_with_parents(people, person, one_gene, two_genes, gene_number):
 
 def gene_number_finder(person, one_gene, two_gene):
     """
-    Returns how many genes we want to test for.
+    Returns how many genes we assume the person to have.
     """
     if person in one_gene:
         return 1
@@ -194,7 +194,21 @@ def gene_probabilities(people, one_gene, two_genes):
         else:
             gene_prob = gene_prob_no_parents(gene_number)
         gene_probs[person] = gene_prob
-    return gene_probs        
+    return gene_probs    
+
+
+def trait_probabilities(people, one_gene, two_genes, have_trait):
+    """
+    Returns dict of probabilities, corresponding to:
+        * every person in set `have_trait` has the trait, and
+        * every person not in set` have_trait` does not have the trait.
+    """
+    trait_probs = {}
+    for person in people:
+        person = people[person]["name"]
+        gene_number = gene_number_finder(person, one_gene, two_genes)
+        trait_probs[person] = PROBS["trait"][gene_number][person in have_trait]
+    return trait_probs 
 
 
 def joint_probability(people, one_gene, two_genes, have_trait):
