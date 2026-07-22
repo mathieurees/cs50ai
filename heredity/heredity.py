@@ -140,22 +140,19 @@ def gene_prob_no_parents(gene_number):
 
 
 def gene_prob_with_parents(people, person, one_gene, two_genes, gene_number):
-    father = people[person]["father"]
-    mother = people[person]["mother"]
+    
+    parents = (people[person]["father"], people[person]["mother"])
+    probs_gene_from_parents = []
 
-    if father in two_genes:
-        prob_gene_from_father = 1 - PROBS["mutation"]
-    elif father in one_gene:
-        prob_gene_from_father = 0.5 - PROBS["mutation"]
-    else:
-        prob_gene_from_father = PROBS["mutation"]
+    for parent in parents:
+        if parent in two_genes:
+            probs_gene_from_parents.append(1 - PROBS["mutation"])
+        elif parent in one_gene:
+            probs_gene_from_parents.append((0.5 * (1 - PROBS["mutation"])) + (0.5 * PROBS["mutation"]))
+        else:
+            probs_gene_from_parents.append(PROBS["mutation"])
 
-    if mother in two_genes:
-        prob_gene_from_mother = 1 - PROBS["mutation"]
-    elif father in one_gene:
-        prob_gene_from_mother = 0.5 - PROBS["mutation"]
-    else:
-        prob_gene_from_mother = PROBS["mutation"]
+    prob_gene_from_father, prob_gene_from_mother = probs_gene_from_parents[0], probs_gene_from_parents[1]
 
     if gene_number == 2:
         ...
