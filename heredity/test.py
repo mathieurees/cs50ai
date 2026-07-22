@@ -46,4 +46,13 @@ class TestGeneProbWithParents:
         actual = gene_prob_with_parents(PEOPLE, "Harry", {}, {}, 0)
         assert isclose(expected, actual)
           
-    
+class TestGeneProbabilites:
+
+    def test_diverse_values(self):
+        expected = {
+            "Harry": 0.9802,
+            "James": 0.01,
+            "Lily": 0.96
+        }
+        actual = gene_probabilities(PEOPLE, {"Harry"}, {"James"})  
+        assert all (isclose(expected[person], actual[person]) for person in expected)  
