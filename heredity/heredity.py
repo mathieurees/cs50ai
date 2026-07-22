@@ -164,7 +164,7 @@ def gene_prob_with_parents(people, person, one_gene, two_genes, gene_number):
     if gene_number == 1:
         return (prob_gene_from_mother * (1 - prob_gene_from_father)) + (prob_gene_from_father * (1 - prob_gene_from_mother))
     if gene_number == 0:
-        ...
+        return (1 - prob_gene_from_father) * (1 - prob_gene_from_mother)
 
 
 def joint_probability(people, one_gene, two_genes, have_trait):

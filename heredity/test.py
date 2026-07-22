@@ -40,5 +40,10 @@ class TestGeneProbWithParents:
         expected = 0.9801
         actual = gene_prob_with_parents(PEOPLE, "Harry", {}, {"Harry", "James", "Lily"}, 2)
         assert isclose(expected, actual)
-      
+
+    def test_no_genes_two_parents_having_no_genes(self):
+        expected = 0.9801
+        actual = gene_prob_with_parents(PEOPLE, "Harry", {}, {}, 0)
+        assert isclose(expected, actual)
+          
     
