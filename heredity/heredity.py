@@ -148,19 +148,18 @@ def gene_prob_with_parents(people, person, one_gene, two_genes, gene_number):
         if parent in two_genes:
             probs_gene_from_parents.append(1 - PROBS["mutation"])
         elif parent in one_gene:
-            probs_gene_from_parents.append((0.5 * (1 - PROBS["mutation"])) + (0.5 * PROBS["mutation"]))
+            probs_gene_from_parents.append(0.5)
         else:
             probs_gene_from_parents.append(PROBS["mutation"])
 
     prob_gene_from_father, prob_gene_from_mother = probs_gene_from_parents[0], probs_gene_from_parents[1]
 
     if gene_number == 2:
-        ...
+        return prob_gene_from_father * prob_gene_from_mother
     if gene_number == 1:
         return (prob_gene_from_mother * (1 - prob_gene_from_father)) + (prob_gene_from_father * (1 - prob_gene_from_mother))
     if gene_number == 0:
         ...
-
 
 
 def joint_probability(people, one_gene, two_genes, have_trait):
