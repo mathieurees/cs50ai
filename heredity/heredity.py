@@ -136,11 +136,16 @@ def has_parents(people, person):
 
 
 def gene_prob_no_parents(gene_number):
+    """
+    Returns probability of gene_number for persons without known parents.
+    """
     return PROBS["gene"][gene_number]
 
 
 def gene_prob_with_parents(people, person, one_gene, two_genes, gene_number):
-    
+    """
+    Returns probability of gene_number for persons with known parents.
+    """
     parents = (people[person]["father"], people[person]["mother"])
     probs_gene_from_parents = []
 
