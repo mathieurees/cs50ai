@@ -21,6 +21,10 @@ class TestGeneProbNoParents:
 
 class TestGeneProbWithParents:
 
-    def test_one_gene(self):
+    def test_one_gene_one_parent_having_two_genes(self):
         assert gene_prob_with_parents(PEOPLE, 'Harry', {"Harry"}, {"James"}, 1) == 0.9802
 
+    def test_one_gene_two_parents_having_two_genes(self):
+            assert isclose(gene_prob_with_parents(PEOPLE, 'Harry', {"Harry"}, {"James", "Lily"}, 1), 0.0198)
+    
+    
