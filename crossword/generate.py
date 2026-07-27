@@ -1,5 +1,5 @@
 import sys
-
+from copy import deepcopy
 from crossword import *
 
 
@@ -100,7 +100,10 @@ class CrosswordCreator():
          constraints; in this case, the length of the word.)
         """
         for var in self.domains:
-            self.domains[var] = set()
+            domain_cpy = deepcopy(self.domains[var])
+            for value in domain_cpy:
+                if len(value) != var.length:
+                    self.domains[var].remove(value)
 
     def revise(self, x, y):
         """
