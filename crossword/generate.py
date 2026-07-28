@@ -120,10 +120,13 @@ class CrosswordCreator():
             x_overlap, y_overlap = crossword.overlaps[x, y]
             x_domain_cpy = deepcopy(self.domains[x])
             for x_word in x_domain_cpy:
-                for y_word in self.domains[y]:
-                    if x_word[x_overlap] != y_word[y_overlap]:
-                        self.domains[x].remove(x_word)
-                        revision = True
+                x_is_inconsitent = all(
+                    x_word[x_overlap] != y_word[y_overlap]
+                        for y_word in self.domains[y]
+                )
+                if x_is_inconsitent:
+                    self.domains[x].remove(x_word)
+                    revision = True
         return revision
 
     def ac3(self, arcs=None):
