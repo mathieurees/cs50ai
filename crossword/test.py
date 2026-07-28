@@ -62,7 +62,7 @@ class TestRevise:
         assert test_game.domains[down] == {"SIX", "SEVEN", "TWO"}
 
     def test_does_remove_given_arc_inconsistency(self, test_game_0):
-        test = test_game_0("./data/testwords1.txt")
+        test = test_game_0
         test_game = test[0]
         across = test[1]
         down = test[2]
