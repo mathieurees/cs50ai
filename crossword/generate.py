@@ -123,6 +123,7 @@ class CrosswordCreator():
                 for y_word in self.domains[y]:
                     if x_word[x_overlap] != y_word[y_overlap]:
                         self.domains[x].remove(x_word)
+                        revision = True
         return revision
 
     def ac3(self, arcs=None):
