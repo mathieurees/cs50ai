@@ -102,7 +102,7 @@ class TestAc3:
         down = test[2]
         across_1 = test[3]
         test_game.enforce_node_consistency()
-        # assert test_game.ac3()
+        assert test_game.ac3()
         assert test_game.domains[across_0] == {"SIX"}
         assert test_game.domains[down] == {"SEVEN"}
         assert test_game.domains[across_1] == {"NINE"}
@@ -114,8 +114,8 @@ class TestAc3:
         down = test[2]
         across_1 = test[3]
         test_game.enforce_node_consistency()
-        test_game.domains[across_1] = {"SIX", "SEVEN", "NINE"}
-        # assert test_game.ac3([(across_0, down)])
+        test_game.domains[across_1] = {"TESTVALUE",}
+        assert test_game.ac3([(across_0, down)])
         assert test_game.domains[across_0] == {"SIX"}
-        assert test_game.domains[down] == {"SEVEN"}
-        assert test_game.domains[across_1] == {"SIX", "SEVEN", "NINE"}
+        assert test_game.domains[down] == {"SEVEN", "SEVEB"}
+        assert test_game.domains[across_1] == {"TESTVALUE",}
