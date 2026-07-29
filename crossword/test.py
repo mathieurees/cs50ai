@@ -126,12 +126,22 @@ class TestAssignmentComplete:
         assert not test_game.assignment_complete(test_assignment) 
 
     def test_returns_true_given_complete_assignment(self, test_game_1):
-            test_game, across_0, down, across_1 = test_game_1
-            test_assignment = {
-                across_0: "TEST_0",
-                down: "TEST_1",
-                across_1: "TEST_2"
-            }  
-            assert test_game.assignment_complete(test_assignment) 
-    
-    
+        test_game, across_0, down, across_1 = test_game_1
+        test_assignment = {
+            across_0: "TEST_0",
+            down: "TEST_1",
+            across_1: "TEST_2"
+        }  
+        assert test_game.assignment_complete(test_assignment) 
+
+
+class TestConsistent:
+
+    def test_returns_true_given_consistent_assignment(self, test_game_1):
+        test_game, across_0, down, across_1 = test_game_1
+        test_assignment = {
+            across_0: "six",
+            down: "seven",
+            across_1: "nine"
+        }  
+        assert test_game.consistent(test_assignment) 
