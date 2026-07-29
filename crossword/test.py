@@ -109,3 +109,10 @@ class TestAc3:
         assert test_game.domains[across_0] == {"SIX",}
         assert test_game.domains[down] == {"SEVEN", "SEVEB"}
         assert test_game.domains[across_1] == {"NINE",}
+
+
+class TestAssignmentComplete:
+
+    def test_returns_false_given_empty_dict(self, test_game_1):
+        test_game, _, _, _ = test_game_1
+        assert not test_game.assignment_complete(dict()) 
