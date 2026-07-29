@@ -105,8 +105,7 @@ class TestAc3:
     def test_enforces_arc_consistency_given_empty_arcs(self, test_game_1):
         test_game, across_0, down, across_1 = test_game_1
         test_game.enforce_node_consistency()
-        test_game.domains[across_1] = {"TEST_VALUE",}
-        assert test_game.ac3([(across_0, down)])
-        assert test_game.domains[across_0] == {"SIX"}
+        assert test_game.ac3([])
+        assert test_game.domains[across_0] == {"SIX",}
         assert test_game.domains[down] == {"SEVEN", "SEVEB"}
-        assert test_game.domains[across_1] == {"TEST_VALUE",}
+        assert test_game.domains[across_1] == {"NINE",}
