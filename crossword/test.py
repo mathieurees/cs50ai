@@ -145,3 +145,12 @@ class TestConsistent:
             across_1: "nine"
         }  
         assert test_game.consistent(test_assignment) 
+
+    def test_returns_false_given_repeating_assignment(self, test_game_1):
+        test_game, across_0, down, across_1 = test_game_1
+        test_assignment = {
+            across_0: "six",
+            down: "seven",
+            across_1: "six"
+        }  
+        assert not test_game.consistent(test_assignment) 
