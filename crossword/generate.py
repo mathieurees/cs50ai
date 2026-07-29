@@ -174,6 +174,12 @@ class CrosswordCreator():
         for variable in assignment:
             if variable.length != len(assignment[variable]):
                 return False
+        for var_x in assignment:
+            for var_y in self.crossword.neighbors(var_x):
+                if var_y in assignment:
+                    x_overlap, y_overlap = self.crossword.overlaps[var_x, var_y]
+                    if assignment[var_x][x_overlap] != assignment[var_y][y_overlap]:
+                        return False   
         return True
 
     def order_domain_values(self, var, assignment):
