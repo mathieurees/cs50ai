@@ -171,6 +171,9 @@ class CrosswordCreator():
         """
         if len(assignment.values()) != len(set(assignment.values())):
             return False
+        for variable in assignment:
+            if variable.length != len(assignment[variable]):
+                return False
         return True
 
     def order_domain_values(self, var, assignment):
