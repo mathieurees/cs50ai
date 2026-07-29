@@ -35,16 +35,12 @@ class TestEnforceNodeConsistency:
         assert initial_domains != new_domains
 
     def test_removes_word_when_too_large(self, test_game_0):
-        test = test_game_0
-        test_game = test[0]
-        across = test[1]
+        test_game, across = test_game_0[0:-1]
         test_game.enforce_node_consistency()
         assert "SEVEN" not in test_game.domains[across]
 
     def test_removes_word_when_too_small(self, test_game_0):
-        test = test_game_0
-        test_game = test[0]
-        down = test[2]
+        test_game, down = test_game_0[0], test_game_0[2]
         test_game.enforce_node_consistency()
         assert "SIX" not in test_game.domains[down]
     
@@ -52,20 +48,14 @@ class TestEnforceNodeConsistency:
 class TestRevise:
 
     def test_does_not_remove_given_arc_consistency(self, test_game_0):
-        test = test_game_0
-        test_game = test[0]
-        across = test[1]
-        down = test[2]
+        test_game, across, down = test_game_0
         test_game.domains[down].add("TWO")
         assert not test_game.revise(across, down)
         assert test_game.domains[across] == {"SIX", "SEVEN"}
         assert test_game.domains[down] == {"SIX", "SEVEN", "TWO"}
 
     def test_does_remove_given_arc_inconsistency(self, test_game_0):
-        test = test_game_0
-        test_game = test[0]
-        across = test[1]
-        down = test[2]
+        test_game, across, down = test_game_0
         test_game.domains[down] = {"TWO"}
         assert test_game.revise(across, down)
         assert test_game.domains[across] == set()
@@ -96,11 +86,7 @@ def test_game_1():
 class TestAc3:
 
     def test_enforces_arc_consistency_given_no_arcs(self, test_game_1):
-        test = test_game_1
-        test_game = test[0]
-        across_0 = test[1]
-        down = test[2]
-        across_1 = test[3]
+        test_game, across_0, down, across_1 = test_game_1
         test_game.enforce_node_consistency()
         assert test_game.ac3()
         assert test_game.domains[across_0] == {"SIX"}
@@ -108,14 +94,10 @@ class TestAc3:
         assert test_game.domains[across_1] == {"NINE"}
 
     def test_enforces_arc_consistency_given_arcs(self, test_game_1):
-        test = test_game_1
-        test_game = test[0]
-        across_0 = test[1]
-        down = test[2]
-        across_1 = test[3]
+        test_game, across_0, down, across_1 = test_game_1
         test_game.enforce_node_consistency()
-        test_game.domains[across_1] = {"TESTVALUE",}
+        test_game.domains[across_1] = {"TEST_VALUE",}
         assert test_game.ac3([(across_0, down)])
         assert test_game.domains[across_0] == {"SIX"}
         assert test_game.domains[down] == {"SEVEN", "SEVEB"}
-        assert test_game.domains[across_1] == {"TESTVALUE",}
+        assert test_game.domains[across_1] == {"TEST_VALUE",}

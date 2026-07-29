@@ -138,7 +138,6 @@ class CrosswordCreator():
         Return True if arc consistency is enforced and no domains are empty;
         return False if one or more domains end up empty.
         """
-
         if arcs:
             queue = arcs
         else:
