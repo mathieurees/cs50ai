@@ -35,7 +35,7 @@ class TestEnforceNodeConsistency:
         assert initial_domains != new_domains
 
     def test_removes_word_when_too_large(self, test_game_0):
-        test_game, across = test_game_0[0:-1]
+        test_game, across, _ = test_game_0
         test_game.enforce_node_consistency()
         assert "SEVEN" not in test_game.domains[across]
 
