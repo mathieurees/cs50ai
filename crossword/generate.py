@@ -138,7 +138,11 @@ class CrosswordCreator():
         Return True if arc consistency is enforced and no domains are empty;
         return False if one or more domains end up empty.
         """
-        queue = list(self.crossword.overlaps.keys())
+
+        if arcs:
+            queue = arcs
+        else:
+            queue = list(self.crossword.overlaps.keys())
         while queue:
             dequeue = queue.pop(0)
             x, y = dequeue[0], dequeue[1]

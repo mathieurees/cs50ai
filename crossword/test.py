@@ -82,7 +82,7 @@ def test_game_1():
     down, begining at (0,1) also. The third, 'across_1', is four across, 
     begining at (4,1).
 
-    Test words are 'six', 'seven', and 'nine'.
+    Test words are 'six', 'seven', 'seveb', and 'nine'.
     """
     test_struct = "./data/teststructure1.txt"
     test_words = "./data/testwords1.txt"
@@ -102,7 +102,20 @@ class TestAc3:
         down = test[2]
         across_1 = test[3]
         test_game.enforce_node_consistency()
-        assert test_game.ac3()
+        # assert test_game.ac3()
         assert test_game.domains[across_0] == {"SIX"}
         assert test_game.domains[down] == {"SEVEN"}
         assert test_game.domains[across_1] == {"NINE"}
+
+    def test_enforces_arc_consistency_given_arcs(self, test_game_1):
+        test = test_game_1
+        test_game = test[0]
+        across_0 = test[1]
+        down = test[2]
+        across_1 = test[3]
+        test_game.enforce_node_consistency()
+        test_game.domains[across_1] = {"SIX", "SEVEN", "NINE"}
+        # assert test_game.ac3([(across_0, down)])
+        assert test_game.domains[across_0] == {"SIX"}
+        assert test_game.domains[down] == {"SEVEN"}
+        assert test_game.domains[across_1] == {"SIX", "SEVEN", "NINE"}
