@@ -116,3 +116,11 @@ class TestAssignmentComplete:
     def test_returns_false_given_empty_dict(self, test_game_1):
         test_game, _, _, _ = test_game_1
         assert not test_game.assignment_complete(dict()) 
+
+    def test_returns_false_given_incomplete_assignment(self, test_game_1):
+        test_game, across_0, down, _ = test_game_1
+        test_assignment = {
+            across_0: "TEST_0",
+            down: "TEST_1"
+        }  
+        assert not test_game.assignment_complete(test_assignment) 

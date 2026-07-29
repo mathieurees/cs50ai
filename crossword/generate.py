@@ -157,8 +157,12 @@ class CrosswordCreator():
         Return True if `assignment` is complete (i.e., assigns a value to each
         crossword variable); return False otherwise.
         """
-        if not assignment:
-            return False
+        for variable in self.crossword.variables:
+            try:
+                assignment[variable]
+            except KeyError:
+                return False
+        return True
 
     def consistent(self, assignment):
         """
