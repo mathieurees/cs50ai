@@ -70,3 +70,39 @@ class TestRevise:
         assert test_game.revise(across, down)
         assert test_game.domains[across] == set()
         assert test_game.domains[down] == {"TWO"}
+
+
+@pytest.fixture
+def test_game_1():
+    """
+    Returns tuple containing simple game, and its variables.
+
+    Test game has only two variables in its crossword. The first variable, 
+    'across_0',is 3 accross, beginning at (0,1). The second, 'down', is 5 
+    down, begining at (0,1) also. The third, 'across_1', is four across, 
+    begining at (4,1).
+
+    Test words are 'six', 'seven', and 'nine'.
+    """
+    test_struct = "./data/teststructure1.txt"
+    test_words = "./data/testwords1.txt"
+    test_game = CrosswordCreator(Crossword(test_struct, test_words))
+    across_0 = Variable(0, 1, "across", 3)
+    down = Variable(0, 1, "down", 5)
+    across_1 = Variable(4, 1, "across", 4)
+    return test_game, across_0, down, across_1
+
+
+class TestAc3:
+
+    def test_enforces_arc_consistency_given_no_arcs(self, test_game_1):
+        test = test_game_1
+        test_game = test[0]
+        across_0 = test[1]
+        down = test[2]
+        across_1 = test[3]
+        test_game.enforce_node_consistency()
+        assert test_game.ac3()
+        assert test_game.domains[across_0] == {"SIX"}
+        assert test_game.domains[down] == {"SEVEN"}
+        assert test_game.domains[across_1] == {"NINE"}
