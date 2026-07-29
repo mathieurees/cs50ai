@@ -124,3 +124,14 @@ class TestAssignmentComplete:
             down: "TEST_1"
         }  
         assert not test_game.assignment_complete(test_assignment) 
+
+    def test_returns_true_given_complete_assignment(self, test_game_1):
+            test_game, across_0, down, across_1 = test_game_1
+            test_assignment = {
+                across_0: "TEST_0",
+                down: "TEST_1",
+                across_1: "TEST_2"
+            }  
+            assert test_game.assignment_complete(test_assignment) 
+    
+    
